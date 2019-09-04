@@ -30,8 +30,6 @@ vector<unsigned char> DoEncrypt(string type, vector<unsigned char> &hexHeader,co
         out.push_back((ui & 0xff00) >> 8);
         out.push_back(ui & 0xff);
 
-
-
         return out;
     }
 

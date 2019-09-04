@@ -1,0 +1,20 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "g++",
+            "args": [
+                "main.cpp",
+                "HexFile.cpp",
+                "-o",
+                "hexviewer.exe"
+
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
