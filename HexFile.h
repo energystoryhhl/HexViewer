@@ -85,6 +85,7 @@ bool DoScript(const char* filename, vector<unsigned char> & headerData, const ve
 
 int ReadScriptHeaderSize(const char* filename);
 
+int HexShowHeader(const char *FileName);
 
 
 

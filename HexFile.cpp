@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "encrypt.h"
-
+#include "stdlib.h"
 
 long long HexOffSetAddr = 0;
 size_t HeaderSize = 0;
@@ -341,8 +341,10 @@ string HexReadFirstOffset(const char *FileName)
 			 case 0x04:			
 				 OffsetAddress = CharToHexInt(RowData + 9) << 16;
 				 SetHexOffSetAddr(OffsetAddress);
+
 				 fclose(fp);
 				 return string(RowData);	
+
 				 break;
 
              case 0x05:
@@ -763,7 +765,6 @@ bool DoScript(const char* filename, vector<unsigned char> & headerData, const ve
 			
 			for(auto ops : cmds)
 			{
-				
 				if(ops.find("startaddr") != std::string::npos)
 				{
 					addr = GetVal(ops);
@@ -780,7 +781,7 @@ bool DoScript(const char* filename, vector<unsigned char> & headerData, const ve
 					length = GetVal(ops);
 					if(length == -1)
 					{
-						length = hexdata.size();
+						length = hexdata.size() - (vaddr.back() - HexOffSetAddr);
 					}
 					if(length > hexdata.size())
 					{
@@ -841,6 +842,8 @@ bool DoScript(const char* filename, vector<unsigned char> & headerData, const ve
 							k++;
 						}
 						cout<<endl;
+					}else{
+						cout<<"	encrypt Data too long dont show"<<endl;
 					}
 
 					vector<string> tmp = split(ops, "=");
@@ -961,3 +964,114 @@ int ReadScriptHeaderSize(const char* filename)
 	 }
 	 return -1;
 }
+
+
+
+ int HexShowHeader(const char *FileName)
+ {
+	 FILE* fp = NULL;
+	 char RowData[256] = { 0 };
+	 unsigned int Len = 0;
+	 unsigned int Addr = 0;
+     unsigned int OffsetAddress = 0;
+     unsigned char ucarr[32] = { 0 };
+     unsigned int blockCounter = 0;
+	 unsigned int blockDataSize = 0;
+	 unsigned char ucLine[256] = {0};
+	 unsigned char Type;
+	 if((fp = fopen(FileName, "r")) == NULL) 						
+	 {
+		 return -1;													
+     }
+
+	printf("--------- ");
+	for(int i = 1;i<=16;i++)
+	{
+		printf("%02X",i-1);
+					if((i % 4 == 0) && (i % 8 != 0))
+					{
+						printf(" ");
+					}
+					if(i % 8 == 0)
+					{
+						printf("  ");
+					}
+	}
+	printf("\n");
+	// printf("---------------------------------------------------");
+	// printf("\n");
+
+
+
+	 while (fgets(RowData, 256, fp) != NULL)							
+	 {
+		 if (RowData[0] == ':')						  				
+		 {
+			 Type = CharToHexUchar(RowData + 7);						
+
+			 switch (Type)
+			 {
+
+             case 0x00:
+				Addr = CharToHexInt(RowData + 3) + OffsetAddress;
+				Len = CharToHexUchar(RowData + 1);
+
+                HexStrToByte(RowData + 9, ucarr, Len * 2);
+				HexStrToByte(RowData + 1,ucLine,Len * 2 + 8 + 2);
+
+
+				printf("%08X: ",Addr);
+
+				for(int i = 1;i<=Len;i++)
+				{
+					printf("%02X",ucarr[i-1]);
+					if((i % 4 == 0) && (i % 8 != 0))
+					{
+						printf(" ");
+					}
+					if(i % 8 == 0)
+					{
+						printf("  ");
+					}
+					if(i % 16 == 0 && i % 32 !=0)
+					{
+						printf("\n");
+						printf("%08X: ",Addr+16);
+					}
+				}
+				printf("\n");
+
+				 blockDataSize += Len;
+				 if(blockDataSize >= HeaderSize)
+				 {
+					 return 0;
+				 }
+				 break;
+
+			 case 0x02:
+			 case 0x03:
+
+				 break;
+			 case 0x04:			
+				 OffsetAddress = CharToHexInt(RowData + 9) << 16;		
+				 break;
+             case 0x05:
+                  OffsetAddress = CharToHexInt(RowData + 9);		                
+                 break;
+
+			 case 0x01:										   	
+                 //printf(RowData);
+//                 printf("block_%d\n", pBlock->counter);
+//                 printf("OffsetAddress: 0x%02x  ", pBlock->offset);
+//                 printf("startAddress: 0x%02x  ", pBlock->startAddr);
+//                 printf("endAddress: 0x%02x  ", pBlock->endAddr);
+//                 printf("size: %d\n", pBlock->size);
+//                 printf("\n");
+                 //printf("EOF");
+				 break;
+			 }
+		 }
+	 }
+	 fclose(fp);
+	 return true;
+ }

@@ -93,7 +93,7 @@ int main(int argc, char ** argv)
 
     
     string headerstr = HexBuffer2HexLineASC(headerData,headerAscData);
-    cout<<"Header Modifyed: "<<endl<<headerstr<<endl ;
+    //cout<<"Header Modifyed: "<<endl<<headerstr<<endl ;
 
     cout<<"Rebuilt Header..."<<endl;
     string headerOffset = HexReadFirstOffset(file);
@@ -118,6 +118,9 @@ int main(int argc, char ** argv)
     }else{
         cout<<"Okay"<<endl;
     }
+
+    cout<<"Modifyed Header: "<<endl;
+    HexShowHeader(filename.c_str());
 
     return 0;
 }

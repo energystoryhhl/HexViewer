@@ -7,9 +7,12 @@
             "args": [
                 "main.cpp",
                 "HexFile.cpp",
+                "Encrypt.cpp",
+                "crc.cpp",
+                "Sha256Calc.c",
+                "yf_uid_aes.c",
                 "-o",
                 "hexviewer.exe"
-
             ],
             "group": {
                 "kind": "build",

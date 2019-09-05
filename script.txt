@@ -20,7 +20,7 @@ startaddr=0xfc000a,writedata=0x0203
 //length=-1 代表从startaddr到hex文件结尾，即全部hex文件内容
 //计算从0xfc0100到文件尾部的hex内容，即除了头部的内容的CRC16并写入0xfc000e
 startaddr=0xfc0100,length=-1,CRC16=0xfc000e
-startaddr=0xfc0000,length=-1,CRC32=0xfc0010
+startaddr=0xfc0100,length=-1,CRC32=0xfc0010
 //startaddr=0xfc0100,length=-1,SHA256=0xfc014
 
 
