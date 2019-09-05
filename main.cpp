@@ -6,6 +6,7 @@
 #include "memory.h"
 
 #include "crc.h"
+#include "windows.h"
 
 using namespace std;
 
@@ -88,7 +89,12 @@ int main(int argc, char ** argv)
 
 
     //process
-     DoScript(SCRIPTNAME, headerData, vecBlocks[0]->buffer);
+    if(DoScript(SCRIPTNAME, headerData, vecBlocks[0]->buffer) == false)
+    {
+        cout<<"ERROR TERMINATED"<<endl;
+        system("pause");
+        return 0;
+    }
     //process
 
     
@@ -121,6 +127,7 @@ int main(int argc, char ** argv)
 
     cout<<"Modifyed Header: "<<endl;
     HexShowHeader(filename.c_str());
+    system("pause");
 
-    return 0;
+
 }
