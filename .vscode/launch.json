@@ -6,25 +6,31 @@
     "configurations": [
         
         {
-            "name": "(gdb) Launch",
+            "name": "(gdb) Bash on Windows Launch",
             "type": "cppdbg",
             "request": "launch",
+            "preLaunchTask": "build",
             "program": "hexviewer.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
+            "environment": [],
             "externalConsole": false,
-            "MIMode": "gdb",
-            "miDebuggerPath": "F:/Complier/mingw64/bin/gdb.exe",
+            "pipeTransport": {
+                "debuggerPath": "F:/Complier/mingw64/bin/gdb.exe",
+                "pipeProgram": "${env:windir}\\system32\\bash.exe",
+                "pipeArgs": ["-c"],
+                "pipeCwd": ""
+            },
             "setupCommands": [
                 {
                     "description": "Enable pretty-printing for gdb",
                     "text": "-enable-pretty-printing",
-                    "ignoreFailures": false
+                    "ignoreFailures": true
                 }
-            ],
-            "preLaunchTask": "build"
+            ]
         }
+        
     ]
 
 }
