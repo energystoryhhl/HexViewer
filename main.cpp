@@ -11,6 +11,7 @@
 using namespace std;
 
 #define SCRIPTNAME "script.txt"
+#define SYSPAUSE    (system("pause"));
 
 int main(int argc, char ** argv)
 {
@@ -35,6 +36,7 @@ int main(int argc, char ** argv)
     if(argc <= 1)
     {
         cout<<"ERROR: no input file"<<endl;
+        SYSPAUSE
         return -1;
     }
 
@@ -44,6 +46,7 @@ int main(int argc, char ** argv)
     if(HexRead2(file, vecBlocks) == false)
     {
         cout<<"Read File Failed!"<<endl;
+        SYSPAUSE
         return 0;
     }
 
@@ -62,12 +65,14 @@ int main(int argc, char ** argv)
     if(k>1)
     {
         cout<<"ERROR: Hex Block bigger than 1, Please full fill Hex with 0xFF"<<endl;
+        SYSPAUSE
         return -1;
     }
 
     if( (HeaderSize % 8)!=0 )
     {
         cout<<"ERROR: Header Data Size % 8 != 0"<<endl;
+        SYSPAUSE
         return -1;
     }
 
@@ -92,7 +97,7 @@ int main(int argc, char ** argv)
     if(DoScript(SCRIPTNAME, headerData, vecBlocks[0]->buffer) == false)
     {
         cout<<"ERROR TERMINATED"<<endl;
-        system("pause");
+        SYSPAUSE
         return 0;
     }
     //process
@@ -127,7 +132,6 @@ int main(int argc, char ** argv)
 
     cout<<"Modifyed Header: "<<endl;
     HexShowHeader(filename.c_str());
-    system("pause");
-
-
+    SYSPAUSE;
+    return 0;
 }
