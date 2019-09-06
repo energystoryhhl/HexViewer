@@ -7,7 +7,7 @@
 #include <iostream>
 
 
-vector<unsigned char> DoEncrypt(string type, vector<unsigned char> &hexHeader,const vector<unsigned char> &data)
+vector<unsigned char> DoEncrypt(string type, vector<unsigned char> &hexHeader,const vector<unsigned char> &data, const vector<unsigned char> &key)
 {
 
     //cout<<"type: "<<type<<endl;
@@ -66,6 +66,12 @@ vector<unsigned char> DoEncrypt(string type, vector<unsigned char> &hexHeader,co
 
     if(type == "ECC")
     {
+        if(key.size() == 0)
+        {
+            return vector<unsigned char>();
+        }
+
+        
 
     }
 

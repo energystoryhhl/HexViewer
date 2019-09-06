@@ -6,6 +6,8 @@
 #include "encrypt.h"
 #include "stdlib.h"
 
+using namespace std;
+
 long long HexOffSetAddr = 0;
 size_t HeaderSize = 0;
 size_t HeaderStart = 0;
@@ -623,7 +625,7 @@ bool DoScript(const char* filename, vector<unsigned char> & headerData, const ve
      }
 	 
 	cout<<"Do Script..."<<endl;
-
+	int step = 0;
 	 while (fgets(RowData, 256, fp) != NULL)	
 	 {
 		string cmd(RowData);
@@ -642,6 +644,8 @@ bool DoScript(const char* filename, vector<unsigned char> & headerData, const ve
 
 		if(cmd.find("HeaderSize") != std::string::npos)
 		{
+			cout<<"Step ";
+			printf("%d\n",step++);
 			cout<<"	SetHeaderSize: "<<"0x"<<hex<<GetVal(cmd)<<endl;
 			SetHeaderSize(GetVal(cmd));
 			continue;
@@ -649,6 +653,8 @@ bool DoScript(const char* filename, vector<unsigned char> & headerData, const ve
 
 		if(cmd.find("writedata") != std::string::npos || cmd.find("filldata") != std::string::npos)
 		{
+			cout<<"Step ";
+			printf("%d\n",step++);
 			//cout<<"	writedata: "<<endl;
 			size_t addr = 0;
 			size_t lengthCommandLine = 0;
@@ -751,6 +757,8 @@ bool DoScript(const char* filename, vector<unsigned char> & headerData, const ve
 			(cmd.find("CMAC")!=string::npos) || (cmd.find("SHA256")!=string::npos) ||\
 			(cmd.find("ECC")!=string::npos))
 		{
+			cout<<"Step ";
+			printf("%d\n",step++);
 			//std::cout<<cmd<<endl;
 			vector<unsigned char> dataToEncrypt;
 			vector<string> cmds = split(cmd,",");
@@ -762,6 +770,7 @@ bool DoScript(const char* filename, vector<unsigned char> & headerData, const ve
 			vector<unsigned int> vlength;
 
 			bool encryptFlag = false;
+			vector<unsigned char> key;
 			
 			for(auto ops : cmds)
 			{
@@ -791,6 +800,31 @@ bool DoScript(const char* filename, vector<unsigned char> & headerData, const ve
 					vlength.push_back(length);
 					//cout<<" length: "<<dec<<length;
 					//cout<<endl;	
+				}
+				if(ops.find("key") != std::string::npos)
+				{
+					vector<string> cmds_ =  split(ops, "=");
+					size_t offset = 0;
+					size_t len = 0;
+					cmds_[1] = trim(cmds_[1]);
+					
+					unsigned char buffer[256] = {0};
+
+					if(cmds_[1].find("0x") != std::string::npos )
+					{
+						offset = 2;
+						len = (cmds_[1].size()-2) / 2;
+
+					}else{
+						len = cmds_[1].size() / 2;
+					}		
+
+					//cout<<cmds_[1].c_str()+ offset;
+
+					HexStrToByte(cmds_[1].c_str() + offset, buffer, len * 2);
+
+					key.insert(key.begin(), buffer, buffer + len);
+
 				}
 
 
@@ -826,6 +860,20 @@ bool DoScript(const char* filename, vector<unsigned char> & headerData, const ve
 						cout<<endl;
 						k++;
 					}
+
+					//cout<<"	length: "<<dec<<len<< " ";
+
+					if(key.size())
+					{
+						cout<<"	key=";
+						for(auto byte:key)
+						{
+							printf("%02X",byte);
+						}
+						cout<<" length="<<key.size();
+						cout<<endl;						
+					}
+
 					if(dataToEncrypt.size() <= HeaderSize)
 					{
 						cout<<"	encrypt Data add:"<<endl;
@@ -871,11 +919,11 @@ bool DoScript(const char* filename, vector<unsigned char> & headerData, const ve
 
 					cout<<"	Do "<<tmp[0]<<" "<<"wrtie addr :"<<hex<<"0x"<<encryptWriteAddr<<endl;
 
-					vector<unsigned char> out =  DoEncrypt(tmp[0], headerData, dataToEncrypt);
+					vector<unsigned char> out =  DoEncrypt(tmp[0], headerData, dataToEncrypt,key);
 
 					if(out.size() == 0)
 					{
-						cout<<"ERROR: "<<tmp[0]<< " CAL error!"<<endl;
+						cout<<"ERROR: "<<tmp[0]<< " encrypt error!"<<endl;
 						return false;
 					}
 					
@@ -895,6 +943,7 @@ bool DoScript(const char* filename, vector<unsigned char> & headerData, const ve
 			vaddr.clear();
 			vlength.clear();
 			dataToEncrypt.clear();
+			key.clear();
 		}//if ENCRYPT
 
 		// if(cmd.find("filldata") != std::string::npos)
