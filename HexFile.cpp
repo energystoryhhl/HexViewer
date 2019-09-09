@@ -573,7 +573,7 @@ vector<string> split(const string& str, const string& delim) {
 
 string& trim(string &s) 
 {
-    if (s.empty()) 
+    if (s.empty())
     {
         return s;
     }
@@ -1093,6 +1093,7 @@ int ReadScriptHeaderSize(const char* filename)
 				 blockDataSize += Len;
 				 if(blockDataSize >= HeaderSize)
 				 {
+					 fclose(fp);
 					 return 0;
 				 }
 				 break;
