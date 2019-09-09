@@ -3,8 +3,8 @@
 //设置hex起始地址 非必要 会自动识别
 HexStartAddr=0xfc0000
 
-//设置hex 头部大小 必要
-HeaderSize=256
+//设置hex 头部大小 必要  必须为8的整数倍
+HeaderSize=0x100
 
 
 
@@ -20,6 +20,7 @@ startaddr=0xfc000a,writedata=0x0203
 //CMAC=0xfc00A0，进行CRC16并将数据写入后面的地址，长度自动判断
 //length=-1 代表从startaddr到hex文件结尾，即全部hex文件内容
 //计算从0xfc0100到文件尾部的hex内容，即除了头部的内容的CRC16并写入0xfc000e
+//如果算法需要key 使用key=... 在进行加密前设置key
 startaddr=0xfc0100,length=-1,key=0x123456,CRC16=0xfc000e
 startaddr=0xfc0100,length=-1,CRC32=0xfc0010
 

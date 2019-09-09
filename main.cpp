@@ -10,8 +10,8 @@
 
 using namespace std;
 
-#define SCRIPTNAME "script.txt"
-#define SYSPAUSE    (system("pause"));
+#define SCRIPTNAME      "script.txt"
+#define SYSPAUSE        (system("pause"));
 
 int main(int argc, char ** argv)
 {
