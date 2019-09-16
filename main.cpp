@@ -7,7 +7,8 @@
 
 #include "crc.h"
 #include "windows.h"
-#include "mbedtls/aes.h"
+
+#include "CMAC.h"
 
 using namespace std;
 
@@ -16,7 +17,6 @@ using namespace std;
 
 int main(int argc, char ** argv)
 {
-    //cout<<"ok"<<endl;
     unsigned int size = 0;
     unsigned int offsetAddr = 0;
     vector<HexBlock_t *> vecBlocks;

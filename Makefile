@@ -1,23 +1,28 @@
 
 CC = g++
 
-SRC_DIR = ./
-	
-SRCS := $(wildcard $(SRC_DIR )*.cpp *.c)
+MBEDTLS_SRC_DIR = ./mbedtls/library/
+MBEDTLS_SRC = $(wildcard $(MBEDTLS_SRC_DIR)*.c)
+$(warning "MBEDTLS_SRC: $(MBEDTLS_SRC)")
 
-$(warning "src: $(SRCS)")
+SRC_DIR = ./
+SRCS = $(wildcard $(SRC_DIR )*.cpp *.c)
+SRCS += $(MBEDTLS_SRC)
+
+$(warning "SRCS: $(SRCS)")
 
 OBJS := $(subst .cpp,.o, $(SRCS))
 $(warning "obj: $(OBJS)")
-	
-INC := $(SRC_DIR)
+
+MBEDTLS_INC = ./mbedtls/include/
+INC += $(MBEDTLS_INC)
 
 CFLAGS := $(EXTRA_CFLAGS)
-CFLAGS += -I $(INC ) 
+CFLAGS += -I $(INC) 
 
 LIB_DIR := 
 LIB_NAME := $(LIB_DIR)
-LDFLAGS := -libpath:$(LIB_NAME)
+LDFLAGS := -fpermissive
 
 OUT_DIR := 
 TARGET= $(OUT_DIR)hexheader.exe

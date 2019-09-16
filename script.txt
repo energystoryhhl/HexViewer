@@ -21,7 +21,7 @@ startaddr=0xfc000a,writedata=0x0203
 //length=-1 代表从startaddr到hex文件结尾，即全部hex文件内容
 //计算从0xfc0100到文件尾部的hex内容，即除了头部的内容的CRC16并写入0xfc000e
 //如果算法需要key 使用key=... 在进行加密前设置key
-startaddr=0xfc0100,length=-1,key=0x123456,CRC16=0xfc000e
+startaddr=0xfc0100,length=-1,CRC16=0xfc000e
 startaddr=0xfc0100,length=-1,CRC32=0xfc0010
 
 //startaddr=0xfc0100,length=-1,SHA256=0xfc014
@@ -29,6 +29,6 @@ startaddr=0xfc0100,length=-1,CRC32=0xfc0010
 
 startaddr=0xfc003C,length=144,filldata=0xFF
 
-startaddr=0xfc0000,length=204,CMAC=0xfc00cc
+startaddr=0xfc0000,length=204,key=0x12345678901234567890123456789012,CMAC=0xfc00cc
 
 
