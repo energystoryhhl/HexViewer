@@ -1005,6 +1005,7 @@ int ReadScriptHeaderSize(const char* filename)
 		if(cmd.find("//") != std::string::npos)
 		{
 			continue;
+			//cmd.erase(cmd.begin() + cmd.find("//"), cmd.end());
 		}
 
 		if(cmd.find("HeaderSize") != std::string::npos)
