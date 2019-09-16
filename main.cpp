@@ -7,6 +7,7 @@
 
 #include "crc.h"
 #include "windows.h"
+#include "mbedtls/aes.h"
 
 using namespace std;
 

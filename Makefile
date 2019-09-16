@@ -23,7 +23,8 @@ OUT_DIR :=
 TARGET= $(OUT_DIR)hexheader.exe
 
 $(TARGET):$(SRCS)
-	g++ main.cpp HexFile.cpp Encrypt.cpp crc.cpp  Sha256Calc.c yf_uid_aes.c -o hexviewer.exe
+	$(CC) -o $@ $^ $(CFLAGS)  $(LDFLAGS)
+	#g++ main.cpp HexFile.cpp Encrypt.cpp crc.cpp  Sha256Calc.c yf_uid_aes.c -o hexviewer.exe
 
 clean:
 	rm -rf *.exe
