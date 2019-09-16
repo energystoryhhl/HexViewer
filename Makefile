@@ -17,6 +17,8 @@ $(warning "obj: $(OBJS)")
 MBEDTLS_INC = ./mbedtls/include/
 INC += $(MBEDTLS_INC)
 
+EXTRA_CFLAGS = -static
+
 CFLAGS := $(EXTRA_CFLAGS)
 CFLAGS += -I $(INC) 
 

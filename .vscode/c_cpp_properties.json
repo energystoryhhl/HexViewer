@@ -4,7 +4,8 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/*",
-                "${workspaceFolder}/encrypt/*"
+                "${workspaceFolder}/encrypt/*",
+                "${workspaceFolder}/mbedtls/include/*"
             ],
             "defines": [
                 "_DEBUG",
