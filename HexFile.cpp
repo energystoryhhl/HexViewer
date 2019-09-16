@@ -857,6 +857,10 @@ bool DoScript(const char* filename, vector<unsigned char> & headerData, const ve
 						}
 						cout<<"	startaddr: "<<"0x"<<hex<<addr_;
 						cout<<" length: "<<dec<<vlength[k];
+						if(vlength[k] >= (hexdata.size() - HeaderSize))
+						{
+							cout<<" EOF";
+						}
 						cout<<endl;
 						k++;
 					}
