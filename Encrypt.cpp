@@ -14,8 +14,10 @@ vector<unsigned char> DoEncrypt(string type, vector<unsigned char> &hexHeader,co
     //cout<<"type: "<<type<<endl;
     if(type == "CRC16")
     {
-        unsigned short us = CRC16_CCITT(( unsigned char *)data.data(), data.size());
+        //unsigned short us = CRC16_CCITT(( unsigned char *)data.data(), data.size());
+        unsigned short us = crc16_(( const char *)data.data(), data.size());
         vector<unsigned char> out;
+        //printf("debug: %X",us);
         out.push_back((us & 0xff00) >> 8);
         out.push_back(us & 0xff);
 
@@ -25,12 +27,14 @@ vector<unsigned char> DoEncrypt(string type, vector<unsigned char> &hexHeader,co
     if(type == "CRC32")
     {
         unsigned int ui = crc32(data.data(), data.size());
+
+        //printf("debug: %X",ui);
         vector<unsigned char> out;
         out.push_back((ui & 0xff000000) >> 24);
         out.push_back((ui & 0xff0000) >> 16);
         out.push_back((ui & 0xff00) >> 8);
         out.push_back(ui & 0xff);
-
+        
         return out;
     }
 
