@@ -87,6 +87,12 @@ int ReadScriptHeaderSize(const char* filename);
 
 int HexShowHeader(const char *FileName);
 
+unsigned char CharToHexUchar(char * c);
+
+unsigned int CharToHexInt(char *c);
+
+void HexStrToByte(const char* source, unsigned char* dest, int sourceLen);
+
 
 
   

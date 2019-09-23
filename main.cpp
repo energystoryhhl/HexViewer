@@ -10,6 +10,8 @@
 
 #include "CMAC.h"
 
+#include "HexLine.h"
+
 using namespace std;
 
 #define SCRIPTNAME      "script.txt"
@@ -24,6 +26,13 @@ int main(int argc, char ** argv)
     vector<Hexline_t> headerAscData;
     size_t HexHeaderLines = 0;
 
+
+
+    std::string hexlinestr(":0200000400FCFE");
+
+    HexFile::HexLine line(hexlinestr);
+
+    return 0;
 
     // unsigned char test[16] = {0xAA,0xAA,0xAA,0xAA,0xAA,0xAA,0xAA,0xAA,\
     //                             0x00,0x01,0x02,0x03,0x00,0x00,0x2F,0xDE};
