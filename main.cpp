@@ -10,7 +10,8 @@
 
 #include "CMAC.h"
 
-#include "HexLine.h"
+
+#include "Hex.h"
 
 using namespace std;
 
@@ -27,12 +28,24 @@ int main(int argc, char ** argv)
     size_t HexHeaderLines = 0;
 
 
+    // HexFile::Hex hexFile(argv[1]);
 
-    std::string hexlinestr(":0200000400FCFE");
+    // int i = 0;
+    // for(HexFile::HexBlock b: hexFile.getHexBlocks())
+    // {
+    //     cout<<std::dec<<i<<" start: "<<" "<<std::hex<<b.start_<<"\t";
+    //     cout<<"end: "<<std::hex<<b.end_<<std::dec<<" size: "<<b.size_<<std::endl;
+    //     i++;
+    // }
 
-    HexFile::HexLine line(hexlinestr);
+    // return 0;
 
-    return 0;
+
+    // std::string hexlinestr(":0200000400FCFE");
+
+    // HexFile::HexLine line(hexlinestr);
+
+    // return 0;
 
     // unsigned char test[16] = {0xAA,0xAA,0xAA,0xAA,0xAA,0xAA,0xAA,0xAA,\
     //                             0x00,0x01,0x02,0x03,0x00,0x00,0x2F,0xDE};
