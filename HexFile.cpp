@@ -591,10 +591,14 @@ long long GetVal(string &cmd)
 			long long val;
 			if(cmds[1].find("0x") != std::string::npos)
 			{
-				val = strtol(cmds[1].c_str(),NULL,16);
+				//cmds[1].erase(cmds[1].begin(), cmds[1].begin()+2);
+				val = strtoll(cmds[1].c_str(),NULL,16);
 			}else{
-				val = strtol(cmds[1].c_str(),NULL,10);
+				val = strtoll(cmds[1].c_str(),NULL,10);
 			}
+
+			// cout<<">>>string: "<<cmds[1]<<endl;
+			// printf(">>>out: %X\n",val);
 			return val;
 }
 
@@ -731,7 +735,7 @@ bool DoScript(const char* filename, vector<unsigned char> & headerData, const ve
 						cout<<" filldata: ";
 						printf("0x%02X", uc);
 						vector<unsigned char> ucdata(lengthCommandLine,uc);
-						cout<<" length: "<<lengthCommandLine;
+						cout<<" length: "<<lengthCommandLine<<endl;
 
 						if(addr < HexOffSetAddr || addr > (HexOffSetAddr + HeaderSize))
 						{
@@ -794,6 +798,7 @@ bool DoScript(const char* filename, vector<unsigned char> & headerData, const ve
 					}
 					if(length > hexdata.size())
 					{
+						printf("length: %d",length);
 						cout<<"ERROR: length over hex data size!"<<endl;
 						return false;
 					}
@@ -886,10 +891,14 @@ bool DoScript(const char* filename, vector<unsigned char> & headerData, const ve
 						for(auto byte : dataToEncrypt)
 						{
 							printf("%02X",byte);
-							if((k+1)%32 == 0)
+							if((k+1)%16 == 0)
 							{
 								cout<<endl;
 								cout<<"	";
+							}
+							if((k+1)%4 == 0 && (k+1)%16 != 0)
+							{
+								cout<<" ";
 							}
 							k++;
 						}

@@ -1,7 +1,7 @@
 
 
 //设置hex起始地址 非必要 会自动识别
-//HexStartAddr=0xfc0000
+HexStartAddr=0xfc0000
 
 //设置hex 头部大小 必要  必须为8的整数倍
 HeaderSize=0x100
@@ -9,10 +9,11 @@ HeaderSize=0x100
 
 
 //绝对地址填充同一个字节的数据，startaddr ：写入的地址 ，length：填充多少字节 ，filldata：填充的数据
-startaddr=0xa0100000,length=8,filldata=0xAA
+startaddr=0xfc0000,length=8,filldata=0xAA
 
 //绝对地址写入一段数据，startaddr ：写入的地址， writedata：写入的数据 大小会自动判断
-startaddr=0xA0100008,writedata=0x0001
+startaddr=0xfc0008,writedata=0x0001
+startaddr=0xfc000a,writedata=0x0203
 
 
 //进行CRC16计算，startaddr：需要进行CRC16的起始地址，length起始地址后的长度，支持多个起始地址多个长度，
@@ -20,15 +21,14 @@ startaddr=0xA0100008,writedata=0x0001
 //length=-1 代表从startaddr到hex文件结尾，即全部hex文件内容
 //计算从0xfc0100到文件尾部的hex内容，即除了头部的内容的CRC16并写入0xfc000e
 //如果算法需要key 使用key=... 在进行加密前设置key
+startaddr=0xfc0100,length=-1,CRC16=0xfc000e
+startaddr=0xfc0100,length=-1,CRC32=0xfc0010
 
-startaddr=0xA0100100,length=-1,CRC16=0xA0100010
-startaddr=0xA0100100,length=-1,CRC32=0xA0100012
-
-startaddr=0xA0100100,length=-1,SHA256=0xA0100014
+//startaddr=0xfc0100,length=-1,SHA256=0xfc014
 
 
-startaddr=0xA010003C,length=144,filldata=0xFF
+startaddr=0xfc003C,length=144,filldata=0xFF
 
-startaddr=0xA0100000,length=204,key=0x2B7E151628AED2A6ABF7158809CF4F3C,CMAC=0xA01000CC
+startaddr=0xfc0000,length=204,key=0x12345678901234567890123456789012,CMAC=0xfc00cc
 
 
