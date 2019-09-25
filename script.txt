@@ -21,8 +21,8 @@ startaddr=0xA0100008,writedata=0x0001
 //计算从0xfc0100到文件尾部的hex内容，即除了头部的内容的CRC16并写入0xfc000e
 //如果算法需要key 使用key=... 在进行加密前设置key
 
-startaddr=0xA0100100,length=-1,CRC16=0xA0100010
-startaddr=0xA0100100,length=-1,CRC32=0xA0100012
+startaddr=0xA0100100,length=-1,CRC16=0xA010000e
+startaddr=0xA0100100,length=-1,CRC32=0xA0100010
 
 startaddr=0xA0100100,length=-1,SHA256=0xA0100014
 
