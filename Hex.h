@@ -90,7 +90,6 @@ namespace HexFile
                             dataBolcks_.push_back(block);
                             block.start_ = line.getAddr();
                         }
-
                         // if(dataLines_.back().getAddr() + dataLines_.back().getSize()  != line.getAddr() )
                         // {
                         //     dataBolcks_.push_back(block);
@@ -108,8 +107,6 @@ namespace HexFile
 
                     dataLines_.push_back(std::move(line));
                     dataLoc_.insert(std::pair<size_t,size_t>(line.getAddr(), dataLines_.size()));
-
-
 
                 }     
 
