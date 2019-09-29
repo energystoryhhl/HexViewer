@@ -51,11 +51,13 @@ namespace HexFile
                 HexBlock block;
                 block.start_ = 0;
                 bool getHeader = false;
+                HexLine preLine;
                 while (fgets(RowData, 256, fd_) != NULL)     
                 {
                     std::string lineStr(RowData) ;
                     HexLine line(lineStr, offset);
-
+                    
+                    //set offset
                     if(line.getType() == HexTypeAddrOffsetExt )
                     {
                         offset = CharToHexInt((char*)line.getLine().data()+9) << 16;                        
@@ -65,38 +67,34 @@ namespace HexFile
                         offset = CharToHexInt((char*)line.getLine().data()+9);
                     }
 
-                    if(line.getType() == HexTypeData || line.getType() == HexTypeEOF)
+
+                    //get data
+                    if(line.getType() == HexTypeData)
                     {
-
-                        if( (dataLines_.back().getType() == HexTypeData) && (dataLines_.back().getAddr() + dataLines_.back().getSize()  != line.getAddr()) )
+                        if( (preLine.getAddr() + preLine.getSize()  != line.getAddr()) && (preLine.vaild() == true) )
                         {
-                            block.end_ = dataLines_.back().getAddr() + dataLines_.back().getSize() - 1;
+                            block.end_ = preLine.getAddr() + preLine.getSize() - 1;
                             block.size_ = block.end_ - block.start_ + 1;
                             dataBolcks_.push_back(block);
                             block.start_ = line.getAddr();
+                            //cout<<lineStr<<endl;
                         }
-                        if( ( dataLines_.back().getType() == HexTypeAddrOffsetExt ) && (dataLines_[dataLines_.size() - 1].getAddr() + dataLines_[dataLines_.size() - 1].getSize() != line.getAddr()) && dataBolcks_.size()>0)
-                        {
-                            block.end_ = dataLines_[dataLines_.size() - 1].getAddr() + dataLines_[dataLines_.size() - 1].getSize() - 1;
-                            block.size_ = block.end_ - block.start_;
-                            dataBolcks_.push_back(block);
-                            block.start_ = line.getAddr(); 
-                        }
-
-                        if(line.getType() == HexTypeEOF)
-                        {
-                            block.end_ = dataLines_.back().getAddr() + dataLines_.back().getSize() - 1;
-                            block.size_ = block.end_ - block.start_ + 1;
-                            dataBolcks_.push_back(block);
-                            block.start_ = line.getAddr();
-                        }
-                        // if(dataLines_.back().getAddr() + dataLines_.back().getSize()  != line.getAddr() )
-                        // {
-                        //     dataBolcks_.push_back(block);
-                        //     block.start_ = line.getAddr();
-                        // }
+                        preLine.set(lineStr, offset);
                     }
 
+                    if(line.getType() == HexTypeEOF)
+                    {
+                        //printf("dataLines_.back().getAddr():%X",dataLines_.back().getAddr());
+                        //printf("dataLines_.back().getSize():%X\n",dataLines_.back().getSize());
+                        block.end_ = preLine.getAddr() + preLine.getSize() - 1;
+                        block.size_ = block.end_ - block.start_ + 1;
+                        dataBolcks_.push_back(block);
+                        block.start_ = line.getAddr();
+                    }  
+
+
+
+                    //get first block start
                     if(getHeader == false && line.getType() == HexTypeData)
                     {
                         //std::cout<<"if(dataLines_.size() == 0)";
@@ -108,7 +106,7 @@ namespace HexFile
                     dataLines_.push_back(std::move(line));
                     dataLoc_.insert(std::pair<size_t,size_t>(line.getAddr(), dataLines_.size()));
 
-                }     
+                }
 
             }
 

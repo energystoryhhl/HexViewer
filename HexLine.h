@@ -25,21 +25,23 @@ namespace HexFile
         
         HexLine(std::string& line, size_t BaseaddrOffset = 0)
         {
-            std::cmatch m;
-            auto ret = std::regex_search(line.data(), m, HexLinePattern);
-
-            if(ret)
-            {
-                vaild_  = true;
-                length_ = CharToHexUchar((char*)line.data() + 1);
-                offset_ = CharToHexInt((char*)line.data() + 3);
-                type_   = CharToHexUchar((char*)line.data() + 7);
-                addr_   = BaseaddrOffset + offset_;
-                data_   = line;
-            }else{
-                vaild_ = false;
-            }
+            set(line, BaseaddrOffset);
         }
+
+        HexLine()
+        :
+        addr_(0),
+        length_(0),
+        type_(0),
+        offset_(0),
+        data_(),
+        vaild_(false)
+        {
+        }
+
+
+
+        bool vaild() {return vaild_;}
 
         size_t getAddr() const { return addr_;}
 
@@ -52,6 +54,8 @@ namespace HexFile
         std::string& getLine()  { return data_;}
 
         std::vector<HexDataElement_t> getData();
+
+        void set(std::string& line, size_t BaseaddrOffset = 0);
 
         private:
             size_t          addr_;

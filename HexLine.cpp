@@ -18,6 +18,26 @@ namespace HexFile
        return v;
    }
 
+   void HexLine::set(std::string& line, size_t BaseaddrOffset)
+   {
+            std::cmatch m;
+            auto ret = std::regex_search(line.data(), m, HexLinePattern);
+
+            if(ret)
+            {
+                vaild_  = true;
+                length_ = CharToHexUchar((char*)line.data() + 1);
+                offset_ = CharToHexInt((char*)line.data() + 3);
+                type_   = CharToHexUchar((char*)line.data() + 7);
+                addr_   = BaseaddrOffset + offset_;
+                data_   = line;
+                //return true;
+            }else{
+                vaild_ = false;
+                //return flase;
+            }
+   }
+
 
 
 }
